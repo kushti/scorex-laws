@@ -1,0 +1,14 @@
+rm laws.aux
+rm laws.out
+rm laws.log
+rm laws.bbl
+rm laws.blg
+pdflatex laws
+bibtex laws
+pdflatex laws
+pdflatex laws
+rm laws.aux
+rm laws.out
+rm laws.log
+rm laws.bbl
+rm laws.blg
