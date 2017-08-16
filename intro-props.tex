@@ -4,18 +4,20 @@
 \newcommand{\aDEFvector}[2][a]{(#1_1,#1_2,\ldots,#1_{#2})}
 
 \subsection{Property-based testing}
-In the scope of a data domain $\mathbb{D}$, a property can be seen as a collective abstract behaviour which has to be followed by every valid member of that data domain. In other words, a property can be understood as a predicate $P$ on a variable $X$ ($P:X \rightarrow \{true, false\}$) such that: 
+In this section, we will begin by giving a formal definition of a property followed by a discussion on property-based testing in contrast to the conventional testing methodologies.\\
+Within the scope of a data domain $\mathbb{D}$, a property can be seen as a collective abstract behaviour which has to be followed by every valid member of that data domain. In other words, a property can be understood as a predicate $P$ over a variable $X$ ($P:X \rightarrow \{true, false\}$) such that: 
 \begin{center}
 $\forall X \in \mathbb{D}, P(X) = true$
 \end{center}
-Consider an example of a property $P$ that has to be satisfied by the domain of all strings $\mathbb{S}$.
+Let us consider an example of a property $P$ over the domain of all possible strings $\mathbb{S}$.
 \begin{center}
 $\forall X \in \{s_1::s_2 | \#s_1::s_2 >  \#s_1 \wedge s_1, s_2 \in \mathbb{S}\}, P(X) = true$
 \end{center}
 where $::$ denotes a regular string append operation and $\#s$ denotes the length of string $s$. But if we look closely, we observe that if $s_1, s_2 \in \{\phi\}$ then the property $P$ does not hold true anymore contrary to the fact that both component strings are valid members of $S$. Hence, $P$ is not a valid property over the domain $S$. \\
-In contrast to conventional testing methods where it might suffice to test the behaviour of some boundary points at the discrete neighbourhoods, property-based testing emphasises on defining universal (within the domain) properties and then testing their validity against randomly sampled data points. There are some popular libraries available for property testing like QuickCheck for Haskell,  and ScalaTest and ScalaCheck (majorly for generator-driven property testing) for Scala-based programs. \\
+In contrast to conventional testing methods where it might suffice to test the behaviour of some boundary points at the discrete neighbourhoods, property-based testing emphasises on defining universal (within the domain) properties and then testing their validity against randomly sampled data points. There are some popular libraries available for property testing including QuickCheck for Haskell, JUnit-QuickCheck for Java, theft for C, and ScalaTest and ScalaCheck (majorly for generator-driven property testing) for Scala-based programs. It is trivial to understand that in order to automate the process of program testing at scale, having properties defined for all the different components of the program largely optimises the whole process. \\
 Since it might not be the case everytime that the random data points needed for property testing are indeed the primitive data types, so in such cases generators are defined, which are simple functions that usually generate some output based on input parameters, to facilitate data generation for testing. A simple example of a generator $G$ can be:
 \begin{center}
 $G(X) \rightarrow {Y}$, where $X=\aDEFvector[x]{n+1}$ and $Y=\{x | x \% 2 = 0\}$
 \end{center}
-We now show an example of a typical property and a generator in context of ScalaCheck [Add reference here]. 
+Generators can automate the process of random data point generation on virtually any data type, which can then be verified against the respective properties to yield the data points, if any, which falsify the predicate.\\
+Walking inside the walls of bitcoin and other cryptocurrencies, we, in this work, highlight some of these properties which should hold true for any implementation of a valid cryptocurrency.
