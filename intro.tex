@@ -6,7 +6,11 @@ A blockchain-based cryptocurrency is defined by a set of protocols, such as cons
 
 An error in a client implementation would be utterly costly and hard to fix. (\knote{examples}) On other hand, there is an increasing demand in developing more blockchain protocols and clients. 
 
-Plenty of frameworks were proposed for speeding up development of new blockchains: \knote{list}
+Plenty of frameworks were proposed for speeding up development of new blockchains: \knote{list}. We have chosen Scorex \knote{why?}.
+
+\subsection{Our Contribution}
+
+In this paper we report on design and implementation of a suite of abstract property tests which are implemented for Scorex framework and checking laws of a blockchain client. A developer of a concrete blockchain system just needs to implement generators of random test inputs~(such as blocks and transactions), and then the testing system will extensively check properties against multiple input objects.
 
 
 
