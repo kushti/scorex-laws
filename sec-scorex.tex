@@ -2,15 +2,17 @@
 
 \section{Scorex Architecture}
 
-Scorex is breaking node view into for following parts. 
+Scorex is a framework for implementing blockchain clients. A client is a node in a peer-to-peer network. The node has a local view of the network state. The goal of the whole peer-to-peer system~\footnote{concretely, honest nodes of it. We skip notion of adversarial behavior further.} is to synchronize on a critical part of local views. Scorex is breaking node's local view into for following parts: 
 
 \begin{itemize}
 \item{history} contains log of persistent modifiers
-\item{minimal state} is a structure enough to 
-\item{vault} is user-specific information
+\item{minimal state} is a structure enough to check an arbitrary persistent modifier
+\item{vault} contains user-specific information
 \item{memory pool} contains temporary objects to be packed into persistent modifiers 
 \end{itemize}
 
-In particular, in order to support hybrid blockchains as well as more complicated linking structures than a chain~(such as SPECTRE\cite{EPRINT:SomLewZoh16}), Scorex 2.0 does not have a notion of the blockchain as a core abstraction. Instead, it provides an abstract interface to a \textit{history} which contains \textit{persistent modifiers}. The history is a part of a \textit{node view}, which is a quadruple of $\langle$\textit{history}, \textit{minimal state}, \textit{vault}, \textit{memory pool}$\rangle$. The minimal state is a data structure and a corresponding interface providing an ability to check a validity of an arbitrary persistent modifier for the current moment of time with the same result for all the nodes in the network having the same history. The minimal state is to be obtained deterministically from an inital pre-historical state and the history. The vault holds node-specific information, for example, a node user's wallet. The memory pool holds unconfirmed transactions being propagated across the networks by nodes before got into blocks. 
+The history and the minimal state are the parts of local views to be synchronized across the network. For this, nodes are running some consensus protocol to form a proper history, and the history should be resulted in a valid minimal state which is got by application of history elements to a pre-historical state.
 
-The whole node view quadruple is to be changed atomically by applying whether a persistent node view modifier or an unconfirmed transaction. Scorex provides guarantees of atomicity and consistency for the application while a coin developer needs to provide implementations for the abstract parts of the quadruple as well as a family of persistent modifiers.
+The whole node view quadruple is to be changed atomically by applying whether a persistent node view modifier or an unconfirmed transaction. Scorex provides guarantees of atomicity and consistency for the application while a developer of a concrete system needs to provide implementations for the abstract parts of the quadruple as well as a family of persistent modifiers.
+
+As an example, we consider a hybrid cryptocurrency Twinscoin, . Scorex has full-fledged Twinscoin implementation as an example. 
