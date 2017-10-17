@@ -15,4 +15,4 @@ The history and the minimal state are the parts of local views to be synchronize
 
 The whole node view quadruple is to be changed atomically by applying whether a persistent node view modifier or an unconfirmed transaction. Scorex provides guarantees of atomicity and consistency for the application while a developer of a concrete system needs to provide implementations for the abstract parts of the quadruple as well as a family of persistent modifiers.
 
-As an example, we consider a hybrid cryptocurrency Twinscoin, . Scorex has full-fledged Twinscoin implementation as an example. 
+As an example, we consider a cryptocurrency Twinscoin, which consensus protocol is a combination of Proof-of-Work and Proof-of-Stake. Scorex has a full-fledged Twinscoin implementation as an example of its usage. In TwinsCoin, there are two kinds of persistent modifiers, a Proof-of-Work block, and a Proof-of-Stake block.  
