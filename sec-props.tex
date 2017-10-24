@@ -2,7 +2,19 @@
 
 \section{Blockchain properties}
 
-In this section we provide our approach to generalized testing of abstract blockchain-like system design. For extensive testing we are  testing history, minimal state and memory pool separately, and also node view holder which updates the quadruple {\em <history, minimal state, vault, memory pool>} in an atomic way. 
+In this section we provide our approach to generalized testing of abstract blockchain-like system design. For extensive testing we are  testing history, minimal state and memory pool separately, and also node view holder which updates the quadruple {\em <history, minimal state, vault, memory pool>} in an atomic way.
+
+
+\subsection{Generators}
+
+In our test suites we are using generators for objects we are using to check laws of a blockchain. A developer of a concrete system needs to implement these generators. We provide interfaces for generators of following types of objects:
+
+\begin{itemize}
+	\item{Syntactically valid, respectively, invalid modifier}
+	\item{Semantically valid, respectively, invalid modifier}
+	\item{Totally, so both semantically and syntactically, valid modifier. Respectively, a sequence of totally valid modifiers}
+	\item{Transaction}
+\end{itemize}
 
 \subsection{Forking}
 
