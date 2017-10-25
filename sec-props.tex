@@ -10,11 +10,13 @@ In this section we provide our approach to generalized testing of abstract block
 In our test suites we are using generators for objects we are using to check laws of a blockchain. A developer of a concrete system needs to implement these generators. We provide interfaces for generators of following types of objects:
 
 \begin{itemize}
-	\item{Syntactically valid, respectively, invalid modifier}
-	\item{Semantically valid, respectively, invalid modifier}
+	\item{Syntactically valid, respectively, invalid modifier, which is valid, respectively invalid, based on a node's local view of history.}
+	\item{Semantically valid, respectively, invalid modifier, which is valid, respectively invalid, based on a node's local view of minimal state.}
 	\item{Totally, so both semantically and syntactically, valid modifier. Respectively, a sequence of totally valid modifiers}
 	\item{Transaction}
 \end{itemize}
+
+For example, in our TwinsCoin implementation, we provide a concrete implementation to these interfaces. To generate syntactically valid modifiers, we generate a PoW block if a previous pair of {\em<PoW block, PoS block>} is complete, otherwise we generate a new PoS block. It can be noted that, in TwinsCoin, transactions are only recorded in PoS blocks. A minimal state in our TwinsCoin implementation deterministically determines the validity of an arbitrary transaction. To generate semantically valid modifiers we generate a PoS block including transactions based on unspent transaction outputs, or unspent boxes. A totally valid modifier generator has a matching PoS block among a syntactically valid and a semantically valid modifier. A generated transaction takes as input unused boxes and returns as output a set of new boxes.
 
 \subsection{Forking}
 
