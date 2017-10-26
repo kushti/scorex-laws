@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e07a21e0-aeae-4246-947e-e60fc698645e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intro.tex" afterPath="$PROJECT_DIR$/intro.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laws.tex" afterPath="$PROJECT_DIR$/laws.tex" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/laws.pdf" afterPath="$PROJECT_DIR$/laws.pdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intro-props.tex" afterPath="$PROJECT_DIR$/intro-props.tex" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
