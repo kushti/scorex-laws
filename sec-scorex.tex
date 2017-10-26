@@ -1,6 +1,7 @@
 % !TEX root = laws.tex
 
 \section{Scorex Architecture}
+\label{sec:scorex}
 
 Scorex is a framework for implementing blockchain clients. A client is a node in a peer-to-peer network. The node has a local view of the network state. The goal of the whole peer-to-peer system\footnote{concretely, its honest nodes. We skip the notion of adversarial behavior for now.} is to synchronize on a critical part of local views. Scorex is breaking node's local view into the following four parts: 
 
