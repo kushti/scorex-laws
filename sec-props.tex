@@ -5,9 +5,9 @@
 
 In this section we provide our approach to generalized testing of abstract blockchain-like system design. For extensive testing we are  testing history, minimal state and memory pool separately, and also node view holder which updates the quadruple {\em <history, minimal state, vault, memory pool>} in an atomic way.
 
-History is a log of persistent modifiers. A modifier is persistent in the sense that it has an unique identifier, and it is always possible to check that the modifier was ever appended to the history. There is no any requirements on a modifier structure, besides the requirement to have an unique identifier, and also to have at least one parent~(referenced by its identifier). 
+History is a log of {\em persistent modifiers}. A modifier is persistent in the sense that it has an unique identifier, and it is always possible to check that the modifier was ever appended to the history. There is no any requirements on a modifier structure, besides the requirement to have an unique identifier, and also to have at least one parent~(referenced by its identifier). If modifier could be applied to a history, we call it {\em syntactically} valid. In addition so syntax, there is some stateful semantics, and minimal state is taking care of it. That is, 
 
-
+If a persistent modifier is syntactically valid, a node is trying to apply it to a minimal state, in a simplest case. . The minimal state is a structure . Thus we state that, from mere abstract point of view, a lifecycle of a cryptocurrency node is to 
 
 
 \subsection{Generators}
