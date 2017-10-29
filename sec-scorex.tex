@@ -8,7 +8,7 @@ Scorex is a framework for implementing blockchain clients. A client is a node in
 \begin{itemize}
 \item{\em history} contains log of persistent modifiers. For example, in a Bitcoin-like blockchain the log is about a sequence of blocks. For an arbitrary persistent modifier, a history implementation can define whether the modifier is valid against it or not.
 If the modifier is valid w.r.t history, we call it a {\em syntactically} valid modifier. \knote{explain/example}  
-\item{\em minimal state} is a structure enough to check semantics of an arbitrary persistent\bruno{persistent has not been defined in the paper yet} modifier with a constraint that the checking has to be deterministic in nature. If a modifier is valid w.r.t minimal state, we call it a {\em semantically} valid modifier.
+\item{\em minimal state} is a structure enough to check semantics of an arbitrary persistent modifier with a constraint that the checking has to be deterministic in nature. If a modifier is valid w.r.t minimal state, we call it a {\em semantically} valid modifier.
 \item{\em vault} contains user-specific information. A wallet or additional indexes to get richer information from the blockchain are perfect examples of vault implementation. 
 \item{\em memory pool} contains temporary objects to be packed into persistent modifiers. An unconfirmed transaction is a clear example of an object living in the pool.
 \end{itemize}
