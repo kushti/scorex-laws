@@ -27,9 +27,11 @@ We implicitly define some properties. For example, the existence of a generator 
 
 \subsection{Simple properties}
 
-We can define a lot of trivial properties. For example, if a modifier has been appended to a history, it is always possible to get it at some later point of time, for any implementation of the history interface and any syntactically valid modifier. In opposite, if modifier is syntactically invalid, it should be not possible to get it by requesting from history. 
+We can define a lot of trivial properties. For example, if a modifier has been appended to a history, it is always possible to get it at some later point of time, for any implementation of the history interface and any syntactically valid modifier. In opposite, if modifier is syntactically invalid, it should be not possible to get it by requesting from history. Similarly, if a persistent modifier is semantically valid against a minimal state, the former could be applied to the latter. Even more, after application we can, for example, to roll the application back and successfully apply the persistent modifier again, 
 
 \subsection{Forking}
+
+
 
 
 \knote{forking}
