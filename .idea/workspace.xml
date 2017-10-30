@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e07a21e0-aeae-4246-947e-e60fc698645e" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/laws.pdf" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/related-work.tex" afterPath="$PROJECT_DIR$/related-work.tex" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -160,15 +160,16 @@
       <option name="presentableId" value="Default" />
       <updated>1509006137282</updated>
       <workItem from="1509006141394" duration="1435000" />
-      <workItem from="1509392066952" duration="83000" />
+      <workItem from="1509392066952" duration="130000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1518000" />
+    <option name="totallyTimeSpent" value="1565000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1847" height="1056" extended-state="4" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cargo" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
