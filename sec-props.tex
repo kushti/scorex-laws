@@ -3,9 +3,12 @@
 \section{Blockchain properties}
 \label{sec:props}
 
-In this section we discuss our approach to generalized testing of an abstract blockchain-like system. For extensive testing, we test history, minimal state and memory pool separately, and also node view holder which updates the quadruple {\em <history, minimal state, vault, memory pool>} in an atomic way.
+In this section we discuss our approach to generalized testing of an abstract blockchain-like system. For extensive testing, we test history, minimal state and memory pool separately, and also do thorough checks for node view holder properties.
+
+In total, we have implemented 59 property tests. They are using random object generators described in Section~\ref{sec:generators}. Most of the tests are relatively simple, some examples are provided in Section~\ref{sec:simple-props}.
 
 \subsection{Generators}
+\label{sec:generators}
 
 In our test suites we use generators for the objects that are used to check the laws of a blockchain. The developer of a concrete system needs to implement these generators. We provide interfaces for generators of the following types of objects:
 
@@ -21,6 +24,7 @@ As an example, for the TwinsCoin, we provide concrete implementations for these 
 We implicitly define some properties. In particular, the existence of a generator for a totally valid modifier for any given correct history and valid minimal state assumes that it is always possible to make a progress. \knote{link to GKL}
 
 \subsection{Simple properties}
+\label{sec:simple-props}
 
 We can define a lot of trivial properties. For example, if a modifier has been appended to a history, it is always possible to get it at some later point of time, for any implementation of the history interface and any syntactically valid modifier. In opposite, if modifier is syntactically invalid, it should be not possible to get it by requesting from history. Similarly, if a persistent modifier is semantically valid against a minimal state, the former could be applied to the latter. Even more, after application we can, for example, to roll the application back and successfully apply the persistent modifier again, 
 
