@@ -1,5 +1,42 @@
 % !TEX root = laws.tex
 
 \section{Examples of properties tests}
+In this section, we will provide some examples of property tests which are valid for any blockchain-based system. We have grouped the tests based on their similarity.
+\begin{enumerate}[\IEEEsetlabelwidth{Z}]
+\item \textit{Tests around Mempool}.\\
+Mempool (or Memory Pool) is used to store the unconfirmed transactions which are to be included into persistent modifier which are synonymous to block in a Bitcoin ledger. The following tests are used to check some general properties of a Mempool which every blockchain client should pass.
+\begin{itemize}[\IEEEsetlabelwidth{Z}]
+\item \textit{A mempool should be able to store a lot of transactions.}\\
+In our TwinsCoin implementation, we have tested that the mempool stores at least 1000 transactions.
+\item \textit{Filtering of valid and invalid transactions from a mempool should be fast}.\\
+We checked our implementation of mempool to filter invalid transactions in the time that it takes to evaluate 500 dummy blocks of SHA-256 hash.
+\item \textit{Transactions successfully added to memory pool should be available by id.}\\
+The purpose of this test is to ensure that once a transaction is added to the mempool, it indeed is available by id meaning that the transaction can be queried from the mempool implying that the mempool has added the transaction successfully in its data structure.
+\end{itemize}
+\item \textit{Tests around Persistent Modifiers}.\\
+A modifier is the building block of a blockchain and is used to update history and the minimal state of the system. As soon as a valid modifier gets appended to history, a node's view changes in the sense that the history is updated along with the minimal state.
+\begin{itemize}[\IEEEsetlabelwidth{Z}]
+\item \textit{Valid persistent modifier should be successfully applied to history and available by id after that}.\\
+A Totally valid persistent modifier once applied to history should be available by a unique id after that which can be queried from the history data structure. The importance of this test comes from the fact that it is of utmost importance for the client implementation to tell the difference between the modifiers that have been appended to the history from those that haven't been added. For this purpose, the unique id of the modifier can be used to query the history to know if the modifier has been added to the history of not.
+\item \textit{Invalid modifiers should not be able to be added to history.}\\
+An invalid modifier (can be syntactically or semantically invalid) should not be added to history and hence, should not be available by id.
+\item \textit{Application of invalid modifier (inconsistent with the previous ones) should be unsuccessful}.\\
+When the unique id of an invalid modifier is queried from history, it should return NULL (always) showing that the invalid modifier was not added to the history.
+\end{itemize}
 
-We are providing some examples of property tests.
+\end{enumerate}
+
+
+
+%- Valid box should be successfully applied to state, it's available by id after that.
+%- State should be able to generate changes from valid block and apply them.
+%- Wallet should contain secrets for all it's public propositions.
+%- State changes application and rollback should lead to the same state and the component changes should also be rolled back.
+%- Transactions once added to a block should be removed from the local copy of mempool.
+%- Minimal state should be able to add and remove boxes based on received transaction's validity.
+%- Modifier (to change state) application should lead to new minimal state whose elements' intersection with previous ones is not complete (at least some new boxes are introduced and some previous ones removed).
+%- Application of the same modifier twice should be unsuccessful.
+%- Application of a valid modifier after rollback should be successful.
+%- Once an invalid modifier is appended to history, then history should not contain it and neither should it be available in history by it's id.
+%- History should contain valid modifier and report if a modifier if semantically valid after successfully appending it to history.
+%- BlockchainSanity test that combines all this test.
