@@ -1,9 +1,10 @@
 % !TEX root = laws.tex
 
 \section{Examples of properties tests}
-In this section, we will provide some examples of property tests which are valid for any blockchain-based system. We have grouped the tests based on their similarity.
+In this section we provide some examples of property tests which are valid for most of blockchain-based system. We have grouped the tests based on their similarity.
+
 \begin{enumerate}[\IEEEsetlabelwidth{Z}]
-\item \textit{Tests around Mempool}.\\
+\item \textit{Mempool Tests}.\\
 Mempool (or Memory Pool) is used to store the unconfirmed transactions which are to be included into persistent modifier which are synonymous to block in a Bitcoin ledger. The following tests are used to check some general properties of a Mempool which every blockchain client should pass.
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{A mempool should be able to store a lot of transactions.}\\
@@ -13,7 +14,9 @@ We checked our implementation of mempool to filter invalid transactions in the t
 \item \textit{Transactions successfully added to memory pool should be available by id.}\\
 The purpose of this test is to ensure that once a transaction is added to the mempool, it indeed is available by id meaning that the transaction can be queried from the mempool implying that the mempool has added the transaction successfully in its data structure.
 \end{itemize}
-\item \textit{Tests around Persistent Modifiers.}\\
+
+\item \textit{Persistent Modifier Tests.}\\
+
 A modifier is the building block of a blockchain and is used to update history and the minimal state of the system. As soon as a valid modifier gets appended to history, a node's view changes in the sense that the history is updated along with the minimal state.
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{Valid persistent modifier should be successfully applied to history and available by id after that}.\\
@@ -23,7 +26,8 @@ An invalid modifier (can be syntactically or semantically invalid) should not be
 \item \textit{Application of invalid modifier (inconsistent with the previous ones) should be unsuccessful}.\\
 When the unique id of an invalid modifier is queried from history, it should return NULL (always) showing that the invalid modifier was not added to the history.
 \end{itemize}
-\item \textit{Tests around Rollback.}\\
+
+\item \textit{Rollback Tests.}\\
 In case of an unwanted event, a rollback has to be performed which essentially rolls the system back to a previous "safe" (changes the current system state to a state in the past which has been verified and is seemingly correct) state and hence recovers the system from the unwanted state. A very common example where a rollback might be necessary is when a system has to recover from a fork issue.
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{State changes application and rollback should lead to the same state and the component changes should also be rolled back.}.\\
@@ -39,7 +43,7 @@ It will now become clear why we generated pairs of transactions and modifiers in
 \item \textit{Application of a valid modifier after rollback should be successful.}\\
 As the previous test aimed at checking that the components of a state are recovered after a rollback happens, it would be quite wrong to think that it should be the only test that is necessary to check if the rollback system performs as expected. It is also equally important that after rollback the system performs normally, as it would perform if the rollback would have never happened. To check this property to certain degree, we propose this test. In this test, we check that after a rollback has happened the system becomes stable again and any new valid modifier which is now added to the history is actually recorded and hence should be available if queried from history. This test ensures that after recovering from a rollback the system performs normally and can resume its functioning without any issues. It hence ensures that a continuity is maintained after a rollback.
 \end{itemize}
-\item \textit{Tests around History}.
+\item \textit{History Tests.}
 History is an abstract data structure which records persistent modifiers and is same as what a blockchain is in BitCoin. Since History is an integral part of a node view, it is important to check if an implementation of History acts correctly. A consensus protocol aims at establishing a common History for all the nodes on the network.
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{Once an invalid modifier is appended to history, then history should not contain it and neither should it be available in history by it's id.}\\
