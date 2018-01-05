@@ -12,8 +12,8 @@ In our TwinsCoin implementation, we have tested that the mempool stores at least
 We checked our implementation of mempool to filter invalid transactions in the time that it takes to evaluate 500 dummy blocks of SHA-256 hash.
 \item \textit{Transactions successfully added to memory pool should be available by id.}\\
 The purpose of this test is to ensure that once a transaction is added to the mempool, it indeed is available by id meaning that the transaction can be queried from the mempool implying that the mempool has added the transaction successfully in its data structure.
-\end{itemize}\\
-\item \textit{Tests around Persistent Modifiers}.\\
+\end{itemize}
+\item \textit{Tests around Persistent Modifiers.}\\
 A modifier is the building block of a blockchain and is used to update history and the minimal state of the system. As soon as a valid modifier gets appended to history, a node's view changes in the sense that the history is updated along with the minimal state.
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{Valid persistent modifier should be successfully applied to history and available by id after that}.\\
@@ -22,8 +22,8 @@ A Totally valid persistent modifier once applied to history should be available 
 An invalid modifier (can be syntactically or semantically invalid) should not be added to history and hence, should not be available by id.
 \item \textit{Application of invalid modifier (inconsistent with the previous ones) should be unsuccessful}.\\
 When the unique id of an invalid modifier is queried from history, it should return NULL (always) showing that the invalid modifier was not added to the history.
-\end{itemize}\\
-\item \textit{Tests around Rollback}.\\
+\end{itemize}
+\item \textit{Tests around Rollback.}\\
 In case of an unwanted event, a rollback has to be performed which essentially rolls the system back to a previous "safe" (changes the current system state to a state in the past which has been verified and is seemingly correct) state and hence recovers the system from the unwanted state. A very common example where a rollback might be necessary is when a system has to recover from a fork issue.
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{State changes application and rollback should lead to the same state and the component changes should also be rolled back.}.\\
@@ -32,14 +32,14 @@ Before proceeding, we would like to define the structure of a transaction $t$. A
 Along with checking that the $id$s are same, it also checks that the components of the new state are also rolled back and not just the $id$ number got rolled back. For this, we generate the modifier $m$ in the following way:
 \begin{itemize}
 \item Generate a pair of transactions ($t_1, t_2$) where $t_1 = ([b_{1}], [b_{2}])$ and $t_1 = ([b_{2}], [b_{3}])$. This notation means that the first transaction $t_1$ uses a box $b_1$ as its input and then outputs a box $b_2$ which is then used by the second transaction as its input. In the above setting, we select the first input box $b_1$ randomly from the set $UTXO$ and finally output the box $b_3$ from $t_2$ which also just generates a random box ($b_3$). The generated transaction pair has to be valid in the sense that it should only use valid unspent boxes from $UTXO$ and satisfy the constraint that the sum of amounts of all the input boxes should be equal to the sum of amounts of the output boxes. The main caveat here is that the second transaction of the pair should use the output box of the transaction of the first transaction of the pair.
-\item Now we generate a pair of modifiers ($m_1, $m_2$) and include both of these transactions from the pair above in the respective modifiers.
+\item Now we generate a pair of modifiers ($m_1, m_2$) and include both of these transactions from the pair above in the respective modifiers.
 \end{itemize}
 Once the custom modifiers are generated, $m_1$ (first half of the pair) is appended to the history and the system moves from state $s_1$ to the state $s_2$. As mentioned before, the transaction $t_1$ from the pair uses a random box $b_1$ from the $UTXO$ of state $s_1$ and when the system moves to the state $s_2$, the $UTXO$ gets added with the box $b_2$ and $b_1$ is removed from the set. Once the state change happens, we append $m_2$ (second half of the modifier pair) to history progressing the system to state $s_3$. Since $m_2$ contains the transaction $t_2$ which takes as input $b_2$, when the system moves to $s_3$, $b_2$ is removed from $UTXO$ and $b_3$ is added.\\
 It will now become clear why we generated pairs of transactions and modifiers in the way defined above. Finally, we perform a rollback from state $s_3$ to $s_2$ which should mean that once the rollback is successful, the box $b_2$ should come back to the set $UTXO$ and should be available by $id$ whereas the box $b_3$ should now not be present inside the $UTXO$ set anymore. Both of these checks tell us that the rollback was performed correctly and the system indeed came back to the previous state with all its components. The reason that we generated the pairs of transactions above is because it helps us in easily checking by $id$ if $b_2$ has returned to the $UTXO$ set since we generated $b_2$ ourselves and know its $id$ already. This makes testing easy and transparent. We would like to mention that this test could also be performed without creating the pairs that we have mentioned above.
 \item \textit{Application of a valid modifier after rollback should be successful.}\\
 As the previous test aimed at checking that the components of a state are recovered after a rollback happens, it would be quite wrong to think that it should be the only test that is necessary to check if the rollback system performs as expected. It is also equally important that after rollback the system performs normally, as it would perform if the rollback would have never happened. To check this property to certain degree, we propose this test. In this test, we check that after a rollback has happened the system becomes stable again and any new valid modifier which is now added to the history is actually recorded and hence should be available if queried from history. This test ensures that after recovering from a rollback the system performs normally and can resume its functioning without any issues. It hence ensures that a continuity is maintained after a rollback.
-\end{itemize}\\
-\item \textit{Tests around History}.\\
+\end{itemize}
+\item \textit{Tests around History}.
 History is an abstract data structure which records persistent modifiers and is same as what a blockchain is in BitCoin. Since History is an integral part of a node view, it is important to check if an implementation of History acts correctly. A consensus protocol aims at establishing a common History for all the nodes on the network.
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{Once an invalid modifier is appended to history, then history should not contain it and neither should it be available in history by it's id.}\\
