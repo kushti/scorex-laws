@@ -13,10 +13,10 @@ In total, we have implemented 59 property tests. They are using random object ge
 In our test suites we use generators for objects which are used to check the laws of a blockchain. A developer of a concrete system needs to implement these generators. We provide interfaces for generators of the following types of objects:
 
 \begin{itemize}
-	\item{Syntactically valid (respectively, invalid) modifier, which is valid (respectively, invalid) based on the node's local view of history.}
-	\item{Semantically valid (respectively, invalid) modifier, which is valid (respectively, invalid), based on the node's local view of minimal state.}
-	\item{Totally, so both semantically and syntactically, valid modifier. Respectively, a sequence of totally valid modifiers}
-	\item{Transaction}
+	\item{a syntactically valid (respectively, invalid) modifier, which is valid (respectively, invalid) based on the node's local view of history.}
+	\item{a semantically valid (respectively, invalid) modifier, which is valid (respectively, invalid), based on the node's local view of minimal state.}
+	\item{a totally, so both semantically and syntactically, valid modifier. Respectively, a sequence of totally valid modifiers}
+	\item{a transaction}
 \end{itemize}
 
 As an example, for the TwinsCoin we provide concrete implementations for these generators. To generate syntactically valid modifiers, we generate a Proof-of-Work (PoW) block if a previous pair of {\em<PoW block, PoS block>} is complete, otherwise we generate a new Proof-of-Stake (PoS) block. It can be noted that, in TwinsCoin, transactions are only recorded in PoS blocks. A minimal state in our TwinsCoin implementation, similarly to Bitcoin, is defined as a set of current unspent transaction outputs. To generate semantically valid modifiers, we generate a PoS block including transactions based on unspent transaction outputs. A totally valid modifier generator has a matching PoS block among a syntactically valid and a semantically valid modifier. %Generated transactions take as input unspent outputs and return as output a set of new randomly generated outputs.
