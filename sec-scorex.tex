@@ -3,7 +3,7 @@
 \section{Scorex Architecture}
 \label{sec:scorex}
 
-Scorex is a framework for implementing blockchain clients. A client is a node in a peer-to-peer network. The node has a local view of the network state. The goal of the whole peer-to-peer system\footnote{concretely, its honest nodes.} is to synchronize on a critical part of local views. Scorex splits a node's local view into the following four parts: 
+Scorex is a framework for rapid implementation of a blockchain protocol client. A client is a node in a peer-to-peer network. The node has a local view of the network state. The goal of the whole peer-to-peer system\footnote{concretely, its honest nodes.} is to synchronize on a part of local views which is a subject of a consensus algorithm. Scorex splits a node's local view into the following four parts: 
 
 \begin{itemize}
 \item{\em history} is a log of persistent modifiers. A modifier is persistent in the sense that it has a unique identifier, and it is always possible to check if the modifier was ever appended to the history~(by presenting its identifier). There are no requirements on a modifier structure, besides the requirements to have a unique identifier and at least one parent~(referenced by its identifier). If a modifier could be appended to a history, we call it {\em syntactically} valid. As an example, in a Bitcoin-like blockchain the history is about a chain of blocks. 
