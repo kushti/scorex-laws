@@ -34,7 +34,7 @@ A syntactically valid persistent modifier, once applied to the history, should b
 A syntactically invalid modifier should not be added to history and hence, should not be available by id.
 
 \item \textit{Application of a syntactically invalid modifier (inconsistent with the previous ones) should be unsuccessful}.\\
-When the unique id of an invalid modifier is queried from history, it should always return empty result which shows that the invalid modifier has not been added to the history.
+When the unique identifier of an invalid modifier is queried from history, it should always return empty result which shows that the invalid modifier has not been added to the history.
 \end{itemize}
 
 \item \textit{Rollback Tests.}\\
@@ -67,9 +67,9 @@ History is an abstract data structure which records persistent modifiers and is 
 
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{Once an invalid modifier is appended to history, then history should not contain it and neither should it be available in history by it's id.}\\
-An invalid modifier is one which either semantically or syntactically invalid meaning that either it is inconsistent with the present minimal state or inconsistent with the present view of history, respectively. For a modifier to be valid, it should be both, semantically and syntactically, valid and then should it be only eligible to be applied to history. To filter out invalid modifiers before adding them to history, we propose this test. We generate a random invalid modifier and attempt to add it to history. Since it is invalid, history should not add it and hence, it should not be available by id when queried from history. Some examples of generating invalid modifiers are - generate false nonce which doesn't satisfy the puzzle, generate false signatures which validate to false when checked with the public key of the signer, etc.
+An invalid modifier is one which either semantically or syntactically invalid meaning that either it is inconsistent with the present minimal state or inconsistent with the present view of history, respectively. For a modifier to be valid, it should be both, semantically and syntactically, valid and then should it be only eligible to be applied to history. To filter out invalid modifiers before adding them to history, we propose this test. We generate a random invalid modifier and attempt to add it to history. Since it is invalid, history should not add it and hence, it should not be available by identifier when queried from history. Some examples of generating invalid modifiers are - generate false nonce which doesn't satisfy the puzzle, generate false signatures which validate to false when checked with the public key of the signer, etc.
 \item \textit{Once an valid modifier is appended to history, then history should contain it and it should be available in history by it's id.}\\
-This test ensures that all the valid modifiers are correctly appended to the history meaning that they are indeed capable of changing the node's view. Since the history appends valid modifiers only, only should a valid modifier by available by id when queried from history.
+This test ensures that all the valid modifiers are correctly appended to the history meaning that they are indeed capable of changing the node's view. Since the history appends valid modifiers only, only should a valid modifier by available by identifier when queried from history.
 \item \textit{History should be able to report if a modifier is semantically valid after successfully appending it to history.}\\
 This purpose of this test if to check the consistency in the working of minimal state and the history. Whenever a node's view is updated, both the history and the state should be updated in harmony and consistently with one another. Since a semantically valid modifier in one which is valid based on a node's view of minimal state, history should be able to correctly report the validity of semantically valid modifier after appending it. This also implies that the history should always report the semantic validity of an appended modifier as "valid" since only totally valid modifiers should be able to append to history. On a side-note, this test also checks that history indeed is checking that only totally valid modifiers, and not just syntactically valid ones (the modifiers valid based on history) are appended to history.
 \end{itemize}
@@ -85,7 +85,7 @@ Whenever a valid modifier is applied, this should lead to a new minimal state ta
 
 
 
-%- Valid box should be successfully applied to state, it's available by id after that.
+%- Valid box should be successfully applied to state, it's available by identifier after that.
 %- State should be able to generate changes from valid block and apply them.
 %- Wallet should contain secrets for all it's public propositions.
 %-
