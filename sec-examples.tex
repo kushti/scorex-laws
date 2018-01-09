@@ -5,12 +5,16 @@ In this section we provide some examples of property tests which are valid for m
 
 \begin{enumerate}[\IEEEsetlabelwidth{Z}]
 \item \textit{Mempool Tests}.\\
-Mempool (or Memory Pool) is used to store the unconfirmed transactions which are to be included into persistent modifier which are synonymous to block in a Bitcoin ledger. The following tests are used to check some general properties of a Mempool which every blockchain client should pass.
+Memory Pool (or just mempool in the Bitcoin jargon) is used to store unconfirmed transactions which are to be included into persistent modifiers. The following tests are used to check some general properties of a memory pool which every blockchain client should pass.
+
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
-\item \textit{A mempool should be able to store a lot of transactions.}\\
-In our TwinsCoin implementation, we have tested that the mempool stores at least 1000 transactions.
+
+\item \textit{A mempool should be able to store enough transactions.}\\
+In our TwinsCoin implementation, we are testing that the mempool which is empty before the test should be able to store number of transactions specified in settings.
+
 \item \textit{Filtering of valid and invalid transactions from a mempool should be fast}.\\
 We checked our implementation of mempool to filter invalid transactions in the time that it takes to evaluate 500 dummy blocks of SHA-256 hash.
+
 \item \textit{Transactions successfully added to memory pool should be available by id.}\\
 The purpose of this test is to ensure that once a transaction is added to the mempool, it indeed is available by id meaning that the transaction can be queried from the mempool implying that the mempool has added the transaction successfully in its data structure.
 \end{itemize}
