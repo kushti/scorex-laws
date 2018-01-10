@@ -71,15 +71,23 @@ A syntactically invalid modifier is one which is inconsistent with the present v
 
 \item \textit{Once a syntactically valid modifier is appended to history, the history should contain it.}\\
 This test ensures that all the valid modifiers are correctly appended to the history meaning that they are indeed capable of changing the node's view. Since the history appends valid modifiers only, only should a valid modifier by available by identifier when queried from history.
+
 \item \textit{History should be able to report if a modifier is semantically valid after successfully appending it to history.}\\
 This purpose of this test if to check the consistency in the working of minimal state and the history. Whenever a node's view is updated, both the history and the state should be updated in harmony and consistently with one another. Since a semantically valid modifier in one which is valid based on a node's view of minimal state, history should be able to correctly report the validity of semantically valid modifier after appending it. This also implies that the history should always report the semantic validity of an appended modifier as "valid" since only totally valid modifiers should be able to append to history. On a side-note, this test also checks that history indeed is checking that only totally valid modifiers, and not just syntactically valid ones (the modifiers valid based on history) are appended to history.
 \end{itemize}
-\item \textit{Tests around Persistent Modifiers}.\\
-Persistent modifiers are the structures responsible for changing a node's view which is a quadruple of \textit{<history, minimal state, vault, memory pool>}. Any change to history or minimal state comes by application of a valid modifier. A modifier inside the BitCoin framework is same as a block which records transaction and updates the blockchain, hence changing a node's view. A modifier is a container for transactions which get confirmed only after the modifier has lived a minimum threshold time inside the history. We say a minimum threshold time because it is only after the modifier gets sufficiently deep inside the history that we can indeed be sure that the modifier did not end up on any fork branch and is actually present on the main branch in history.
+
+\item \textit{Minimal State Tests.}\\
+Persistent modifiers are the structures responsible for changing a node's local view which is a quadruple \textit{<history, minimal state, vault, memory pool>}. Any change to history or minimal state comes by application of a valid modifier. 
+
+\ignore{A modifier inside the BitCoin framework is same as a block which records transaction and updates the blockchain, hence changing a node's view. A modifier is a container for transactions which get confirmed only after the modifier has lived a minimum threshold time inside the history. We say a minimum threshold time because it is only after the modifier gets sufficiently deep inside the history that we can indeed be sure that the modifier did not end up on any fork branch and is actually present on the main branch in history.}
+
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{Application of the same modifier twice should be unsuccessful.}\\
-This test checks that a modifier should not be added more than once. Since if a modifier is added twice, all the transaction inside the modifier will be double spent, so an implementation of a blockchain system should prevent addition of a modifier twice. In this test, we generate a modifier, then append it to history once and on the second application of the modifier again to history, the history should return an unsuccessful addition.
+
+This test checks that a persistent modifier should not be added more than once. Since if a modifier is added twice, all the transaction inside the modifier will be double spent, so an implementation of a blockchain system should prevent addition of a modifier twice. In this test, we generate a modifier, then append it to history once and on the second application of the modifier again to history, the history should return an unsuccessful addition.
+
 \item \textit{Modifier application should lead to new minimal state whose elements' set intersection with previous ones is not complete.}\\
+
 Whenever a valid modifier is applied, this should lead to a new minimal state taking into account the necessary changes introduced by the transaction inside the modifier. Readers should note that the cardinality of these changes when represented as a set should not be 0, meaning that there should be some changes to the minimal state since the history and the node's view changed on application of the modifier. This implies that the new minimal state should not be completely same as the previous minimal state before the application of the modifier. If they both were same, this would mean that the application of the modifier did not change anything and hence the modifier was empty (not possible). Therefore, with this test we check that the intersection of minimal state before the application of a modifier and after its application is not complete i.e. not all elements in both the minimal states are same.
 \end{itemize}
 \end{enumerate}
