@@ -37,7 +37,7 @@ A syntactically invalid modifier should not be added to history and hence, shoul
 When the unique identifier of an invalid modifier is queried from history, it should always return empty result which shows that the invalid modifier has not been added to the history.
 \end{itemize}
 
-\item \textit{Rollback Tests.}\\
+\item \textit{Minimal State Tests.}\\
 
 In case of an unwanted event, a rollback has to be performed which essentially rolls the system back to a previous "safe" (changes the current system state to a state in the past which has been verified and is seemingly correct) state and hence recovers the system from the unwanted state. A very common example where a rollback might be necessary is when a system has to recover from a fork issue.
 
@@ -58,7 +58,7 @@ Once the custom modifiers are generated, $m_1$ (first half of the pair) is appen
 
 It will now become clear why we generated pairs of transactions and modifiers in the way defined above. Finally, we perform a rollback from state $s_3$ to $s_2$ which should mean that once the rollback is successful, the box $b_2$ should come back to the set $UTXO$ and should be available by $id$ whereas the box $b_3$ should now not be present inside the $UTXO$ set anymore. Both of these checks tell us that the rollback was performed correctly and the system indeed came back to the previous state with all its components. The reason that we generated the pairs of transactions above is because it helps us in easily checking by $id$ if $b_2$ has returned to the $UTXO$ set since we generated $b_2$ ourselves and know its $id$ already. This makes testing easy and transparent. We would like to mention that this test could also be performed without creating the pairs that we have mentioned above.
 
-\item \textit{Application of a valid modifier after rollback should be successful.}\\
+\item \textit{Application of a valid modifier after a rollback should be successful.}\\
 As the previous test aimed at checking that the components of a state are recovered after a rollback happens, it would be quite wrong to think that it should be the only test that is necessary to check if the rollback system performs as expected. It is also equally important that after rollback the system performs normally, as it would perform if the rollback would have never happened. To check this property to certain degree, we propose this test. In this test, we check that after a rollback has happened the system becomes stable again and any new valid modifier which is now added to the history is actually recorded and hence should be available if queried from history. This test ensures that after recovering from a rollback the system performs normally and can resume its functioning without any issues. It hence ensures that a continuity is maintained after a rollback.
 \end{itemize}
 
@@ -76,15 +76,22 @@ This test ensures that all the valid modifiers are correctly appended to the his
 This purpose of this test if to check the consistency in the working of minimal state and the history. Whenever a node's view is updated, both the history and the state should be updated in harmony and consistently with one another. Since a semantically valid modifier in one which is valid based on a node's view of minimal state, history should be able to correctly report the validity of semantically valid modifier after appending it. This also implies that the history should always report the semantic validity of an appended modifier as "valid" since only totally valid modifiers should be able to append to history. On a side-note, this test also checks that history indeed is checking that only totally valid modifiers, and not just syntactically valid ones (the modifiers valid based on history) are appended to history.
 \end{itemize}
 
-\item \textit{Minimal State Tests.}\\
-Persistent modifiers are the structures responsible for changing a node's local view which is a quadruple \textit{<history, minimal state, vault, memory pool>}. Any change to history or minimal state comes by application of a valid modifier. 
+\item \textit{Common Component Tests.}\\
 
-\ignore{A modifier inside the BitCoin framework is same as a block which records transaction and updates the blockchain, hence changing a node's view. A modifier is a container for transactions which get confirmed only after the modifier has lived a minimum threshold time inside the history. We say a minimum threshold time because it is only after the modifier gets sufficiently deep inside the history that we can indeed be sure that the modifier did not end up on any fork branch and is actually present on the main branch in history.}
-
-\begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{Application of the same modifier twice should be unsuccessful.}\\
 
 This test checks that a persistent modifier should not be added more than once. Since if a modifier is added twice, all the transaction inside the modifier will be double spent, so an implementation of a blockchain system should prevent addition of a modifier twice. In this test, we generate a modifier, then append it to history once and on the second application of the modifier again to history, the history should return an unsuccessful addition.
+
+
+\item \textit{Node View Holder Tests.}\\
+
+As was mentioned in Section~\ref{sec:scorex}, node view holder is the central component of a blockchain node which is responsible for atomically updating the quadruple \textit{<history, minimal state, vault, memory pool>}. The update could be triggered by whether a persistent modifier of a transaction coming in. 
+
+
+\begin{itemize}[\IEEEsetlabelwidth{Z}]
+
+\item \textit{Totally valid modifier should successfully update the minimal state and the history.}\\
+We recall that a totally valid modifier is a persistent modifier which is valid for both the history and the minimal state, so it is applicable to both of them. In this test we are sending a random totally valid persistent modifier to the node view holder component and then check that history contains it, and the version of the minimal state is equals to the modifier's identifier.
 
 \item \textit{Modifier application should lead to new minimal state whose elements' set intersection with previous ones is not complete.}\\
 
