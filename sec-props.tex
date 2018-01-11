@@ -1,16 +1,16 @@
 % !TEX root = laws.tex
 
-\section{Property-based testing of a blockchain client.}
+\section{Property-based testing of a blockchain client}
 \label{sec:props}
 
-In this section we discuss our approach to generalized testing of an abstract blockchain-like system. For extensive testing, we test history, minimal state and memory pool separately, and also do thorough checks for node view holder properties.
+In this section we discuss our approach to generalized exhaustive testing of an abstract blockchain~(or blockchain-like) protocol implementation. For extensive testing, we test history, minimal state and memory pool separately, and also do thorough checks for node view holder properties.
 	
 In total, we have implemented 59 property tests. They are using random object generators described in Section~\ref{sec:generators}. Most of the tests are relatively simple, some examples are provided in Section~\ref{sec:simple-props}. Other tests could check complex functionalities where several components are involved. As a particular example, we provide details on testing fork processing in Section~\ref{sec:forking}.
 
 \subsection{Generators}
 \label{sec:generators}
 
-In our test suites we use generators for objects which are used to check the laws of a blockchain. A developer of a concrete system needs to implement these generators. We provide interfaces for generators of the following types of objects:
+We recall that (unlike unit tests, for example), property-based tests are checking not an output of a functionality under test against a concrete input, but rather a relation between input and output values for an arbitrary input value. Thus to run a property-based test, an instance of an input value is needed. To obtain it, a property-based test is getting an input generator which provides a random input domain element upon request. For our testing framework, a developer of a concrete client needs to provide implementation for generators of the following types:
 
 \begin{itemize}
 	\item{a syntactically valid (respectively, invalid) modifier, which is valid (respectively, invalid) based on the node's local view of history.}
