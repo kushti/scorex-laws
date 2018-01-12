@@ -13,10 +13,10 @@ In total, we have implemented 59 property tests. They are using random object ge
 We recall that (unlike unit tests, for example), property-based tests are checking not an output of a functionality under test against a concrete input, but rather a relation between input and output values for an arbitrary input value. Thus to run a property-based test, an instance of an input value is needed. To obtain it, a property-based test is getting an input generator which provides a random input domain element upon request. For our testing framework, a developer of a concrete client needs to provide implementation for generators of the following types:
 
 \begin{itemize}
-	\item{a syntactically valid (respectively, invalid) modifier, which is valid (respectively, invalid) based on the node's local view of history.}
-	\item{a semantically valid (respectively, invalid) modifier, which is valid (respectively, invalid), based on the node's local view of minimal state.}
-	\item{a totally, so both semantically and syntactically, valid modifier. Respectively, a sequence of totally valid modifiers}
-	\item{a transaction}
+	\item{a syntactically valid (respectively, invalid) modifier, which is valid (respectively, invalid) against (local) history.}
+	\item{a semantically valid (respectively, invalid) modifier, which is valid (respectively, invalid) against (local) minimal state.}
+	\item{a totally, so both semantically and syntactically, valid modifier. Respectively, a sequence of totally valid modifiers.}
+	\item{a transaction.}
 \end{itemize}
 
 As an example, for the TwinsCoin implementation we provide concrete implementations for all the generators mentioned above. To generate a syntactically valid modifier, we generate a Proof-of-Work block if a previous pair of {\em<Proof-of-Work block, Proof-of-Stake block>} is complete, otherwise we generate a new Proof-of-Stake block. It can be noted that, in TwinsCoin, transactions are only recorded in Proof-of-Stake blocks. A minimal state in our TwinsCoin implementation, similarly to Bitcoin, is defined as a set of current unspent transaction outputs. To generate a semantically valid modifier, we generate a Proof-of-Stake block including transactions based on unspent transaction outputs. A totally valid modifier generator has a matching Proof-of-Stake block among a syntactically valid and a semantically valid modifier. 
