@@ -38,7 +38,7 @@ A very intuitive solution [?https://eprint.iacr.org/2013/837.pdf] to this proble
 
 These arguments make it pretty convincing that repeated testing of even the most carefully written and designed system is crucial to expose hidden vulnerabilities in the developed system which might miss the eye of the developers. Such tests are performed regularly on important system and help ensure their reliability, security and performance. But, if we talk about Bitcoin and other blockchain system, where the cost of errors can be humungous, then testing becomes the most important part of the software development lifecycle.
 
-In this manuscript we focus on a different method of program testing, called property testing \cite{ron2001property}. This method is concerned with making approximate decisions as to whether a function satisfies a property globally or not by using only a small number of random input domain elements.
+In this manuscript we focus on a different method of program testing, called property testing \cite{ron2001property}. This method is concerned with making approximate decisions as to whether a function satisfies a property globally or not by using only a small number of random input domain elements. We argue that for testing an implementation on top of the abstract Scorex framework, this method is of special interest, as we can split clearly and in a useful way work between the framework and the application by using it. Concretely, properties an application should apply are provided before implementing it, and then an application developer just needs to write generators for random input domain elements the tests are using.   
 \nocite{holzmann1995improvement}
 \nocite{zaki2008formal}
 
