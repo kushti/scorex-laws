@@ -45,7 +45,7 @@ In case of an unwanted event, a rollback has to be performed which essentially r
 
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 
-\item \textit{Application and rollback should lead to the same minimal state.}.\\
+\item \textit{Application and rollback should lead to the same minimal state.}\\
 
 In this test, a semantically persistent modifier $m$ is generated and applied to a current state $S$. Due to this application of the modifier, a new minimal state $S'$ is to be obtained from $S$. After the modifier is applied successfully to the history, a rollback is performed to take the system back to state $S$ from the current state $S'$. The test now checks that the state to which the system comes after the rollback is indeed the state $S$ by checking an identifier of the new state after rollback is the same as the identifier of the original state.\\
 
