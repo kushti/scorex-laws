@@ -32,7 +32,7 @@ A persistent modifier is the main building block of a history and is used to upd
 
 A syntactically valid persistent modifier, once applied to the history, should be available by its unique identifier. The importance of this test comes from the fact that it is of utmost importance for the client implementation to tell the difference between the modifiers that have been appended to the history from those that have not been added. For this purpose, the unique identifier of the modifier can be used to query the history to know whether the modifier has been added to the history of not.
 
-\item \textit{A syntactically invalid modifiers should not be able to be added to history.}\\
+\item \textit{A syntactically invalid modifier should not be able to be added to history.}\\
 A syntactically invalid modifier should not be added to history and hence, should not be available by id.
 
 \item \textit{Application of a syntactically invalid modifier (inconsistent with the previous ones) should be unsuccessful}.\\
