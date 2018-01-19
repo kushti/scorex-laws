@@ -6,16 +6,16 @@
 To explain our approach to the testing of a client in details, in this section we provide some examples of property tests which are valid for most of blockchain-based systems. We have grouped the tests based on their similarity.
 
 \begin{enumerate}[\IEEEsetlabelwidth{Z}]
-\item \textit{Mempool Tests}.\\
+\item \textit{Memory pool pool Tests}.\\
 Memory Pool (or just mempool in the Bitcoin jargon) is used to store unconfirmed transactions which are to be included into persistent modifiers. The following tests are used to check some general properties of a memory pool which every blockchain client should pass.
 
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 
-\item \textit{A mempool should be able to store enough transactions.}\\
-In our TwinsCoin implementation, we are testing that the mempool which is empty before the test should be able to store number of transactions specified in settings.
+\item \textit{A memory pool should be able to store enough transactions.}\\
+In our TwinsCoin implementation, we are testing that the mempool which is empty before the test should be able to store a number of transactions up to a maximum specified in settings.
 
 \item \textit{Filtering of valid and invalid transactions from a mempool should be fast}.\\
-We are checking that an implementation of mempool is able to filter an invalid transaction in the time that it takes to evaluate 500 dummy blocks of SHA-256 hash.
+We are checking that an implementation of mempool is able to filter out an invalid transaction reasonably fast. As processing time is platform-dependent, the test during its instantiation is measuring time to calculate 500,000 blocks of SHA-256 hash. Time to filter out the transaction should be no more than that. 
 
 \item \textit{A transaction successfully added to memory pool should be available by a transaction identifier.}\\
 
@@ -23,7 +23,9 @@ The purpose of this test is to ensure that once a transaction is added to the me
 
 \end{itemize}
 
-\item \textit{Persistent Modifier Tests.}\\
+\item \textit{History Tests.}\\
+
+History is an abstract data structure which records persistent modifiers and is same as what a blockchain is in Bitcoin. Since history is an integral part of a node view, it is important to check if an implementation of history acts correctly. A consensus protocol aims at establishing a common history for all the nodes on the network.
 
 A persistent modifier is the main building block of a history and is used to update the history and a minimal state. As soon as a valid modifier gets appended to history, a node's local view changes in the sense that the history is updated, possibly along with the minimal state.
 
@@ -37,6 +39,15 @@ A syntactically invalid modifier should not be added to history and hence, shoul
 
 \item \textit{Application of a syntactically invalid modifier (inconsistent with the previous ones) should be unsuccessful}.\\
 When the unique identifier of an invalid modifier is queried from history, it should always return empty result which shows that the invalid modifier has not been added to the history.
+
+\item \textit{Once a syntactically invalid modifier is appended to history, it should not be available in history by its identifier.}\\
+A syntactically invalid modifier is one which is inconsistent with the present view of history. Only syntactically valid modifier is eligible to be applied to history. To filter out invalid modifiers before adding them to history, we propose this test. We generate a random invalid modifier and attempt to add it to history. Since it is invalid, history should not add it and hence, it should not be available by identifier when queried from history. Some examples of generating invalid modifiers are - generate false nonce which doesn't satisfy the puzzle, generate false signatures which validate to false when checked with the public key of the signer, etc.
+
+\item \textit{Once a syntactically valid modifier is appended to history, the history should contain it.}\\
+This test ensures that all the valid modifiers are correctly appended to the history meaning that they are indeed capable of changing the node's view. Since the history appends valid modifiers only, only should a valid modifier by available by identifier when queried from history.
+
+\item \textit{History should be able to report if a modifier is semantically valid after successfully appending it to history.}\\
+This purpose of this test if to check the consistency in the working of minimal state and the history. Whenever a node's view is updated, both the history and the state should be updated in harmony and consistently with one another. Since a semantically valid modifier in one which is valid based on a node's view of minimal state, history should be able to correctly report the validity of semantically valid modifier after appending it. This also implies that the history should always report the semantic validity of an appended modifier as "valid" since only totally valid modifiers should be able to append to history. On a side-note, this test also checks that history indeed is checking that only totally valid modifiers, and not just syntactically valid ones (the modifiers valid based on history) are appended to history.
 \end{itemize}
 
 \item \textit{Minimal State Tests.}\\
@@ -49,7 +60,7 @@ In case of an unwanted event, a rollback has to be performed which essentially r
 
 In this test, a semantically persistent modifier $m$ is generated and applied to a current state $S$. Due to this application of the modifier, a new minimal state $S'$ is to be obtained from $S$. After the modifier is applied successfully to the history, a rollback is performed to take the system back to state $S$ from the current state $S'$. The test now checks that the state to which the system comes after the rollback is indeed the state $S$ by checking an identifier of the new state after rollback is the same as the identifier of the original state.\\
 
-Before proceeding, we define the structure of a transaction $t$. A simple transaction is usually represented as the map $T : UTXO \to UTXO$, where $UTXO$ is the set of all the unspent transaction outputs or \textit{boxes}. A box can be considered as a tuple ($pubkey, amount$) where $pubkey$ is the public key of the account of the node to which this box belongs to and $amount$ refers to the monetary (in case of cryptocurrencies) amount which this box holds in the name of the $pubkey$ in the first half of the tuple. A transaction uses some ($\geq 0$, 0 in the case of the rewarding transaction which is present at the end of each block and which rewards the miner) unspent boxes and generates new boxes with a constraint that sum of the amount of all the boxes used in the transaction is equal to the sum of amount of the boxes output by the transaction except the rewarding transaction for which this constraint doesn't apply. Once the new boxes have been added to the UTXO set, the old boxes which were input to the transaction are removed from the UTXO set to prevent double spending. This addition and removal of boxes from $UTXO$ set has to be done atomically in order to avoid inconsistencies in the system. Suppose a node $A$ wants to send $x$ amount to a node $B$, then the transaction for this purpose will use some boxes with $A$s public key on them which sum up to an amount $y \geq x$ and output the boxes $b_1$ and $b_2$ such that $b_1 = (B, x)$ which has $B$s public key and an amount $x$ whereas $b_2 = (A, y-x)$ will have $A$s public key and an amount of $y-x$, if $y>x$. Now $B$ has received a new box $b_1$ which belongs to him and this box now sits inside the set $UTXO$ until the point when $B$ uses this box an one of the inputs to a future transaction. Readers should note that for more readability we will represent a transaction $T$ by a tuple ([$in_1, in_2, ...$], [$o_1, o_2, ...$]) where $in_i$ denotes input boxes to the transaction and $o_i$ denotes the output boxes of the transaction.\\
+We now use this test to explain how we generate a semantically valid modifier for the Twinscoin client. Before proceeding, we define the structure of a transaction $t$. A simple transaction is usually represented as the map $T : UTXO \to UTXO$, where $UTXO$ is the set of all the unspent transaction outputs or \textit{boxes}. A box can be considered as a tuple ($pubkey, amount$) where $pubkey$ is the public key of the account of the node to which this box belongs to and $amount$ refers to the monetary (in case of cryptocurrencies) amount which this box holds in the name of the $pubkey$ in the first half of the tuple. A transaction uses some ($\geq 0$, 0 in the case of the rewarding transaction which is present at the end of each block and which rewards the miner) unspent boxes and generates new boxes with a constraint that sum of the amount of all the boxes used in the transaction is equal to the sum of amount of the boxes output by the transaction except the rewarding transaction for which this constraint doesn't apply. Once the new boxes have been added to the UTXO set, the old boxes which were input to the transaction are removed from the UTXO set to prevent double spending. This addition and removal of boxes from $UTXO$ set has to be done atomically in order to avoid inconsistencies in the system. Suppose a node $A$ wants to send $x$ amount to a node $B$, then the transaction for this purpose will use some boxes with $A$s public key on them which sum up to an amount $y \geq x$ and output the boxes $b_1$ and $b_2$ such that $b_1 = (B, x)$ which has $B$s public key and an amount $x$ whereas $b_2 = (A, y-x)$ will have $A$s public key and an amount of $y-x$, if $y>x$. Now $B$ has received a new box $b_1$ which belongs to him and this box now sits inside the set $UTXO$ until the point when $B$ uses this box an one of the inputs to a future transaction. Readers should note that for more readability we will represent a transaction $T$ by a tuple ([$in_1, in_2, ...$], [$o_1, o_2, ...$]) where $in_i$ denotes input boxes to the transaction and $o_i$ denotes the output boxes of the transaction.\\
 Along with checking that the $id$s are same, it also checks that the components of the new state are also rolled back and not just the $id$ number got rolled back. For this, we generate the modifier $m$ in the following way:
 \begin{itemize}
 \item Generate a pair of transactions ($t_1, t_2$) where $t_1 = ([b_{1}], [b_{2}])$ and $t_2 = ([b_{2}], [b_{3}])$. This notation means that the first transaction $t_1$ uses a box $b_1$ as its input and then outputs a box $b_2$ which is then used by the second transaction as its input. In the above setting, we select the first input box $b_1$ randomly from the set $UTXO$ and finally output the box $b_3$ from $t_2$ which also just generates a random box ($b_3$). The generated transaction pair has to be valid in the sense that it should only use valid unspent boxes from $UTXO$ and satisfy the constraint that the sum of amounts of all the input boxes should be equal to the sum of amounts of the output boxes. The main caveat here is that the second transaction of the pair should use the output box of the transaction of the first transaction of the pair.
@@ -62,20 +73,6 @@ It will now become clear why we generated pairs of transactions and modifiers in
 
 \item \textit{Application of a valid modifier after a rollback should be successful.}\\
 As the previous test aimed at checking that the components of a state are recovered after a rollback happens, it would be quite wrong to think that it should be the only test that is necessary to check if the rollback system performs as expected. It is also equally important that after rollback the system performs normally, as it would perform if the rollback would have never happened. To check this property to certain degree, we propose this test. In this test, we check that after a rollback has happened the system becomes stable again and any new valid modifier which is now added to the history is actually recorded and hence should be available if queried from history. This test ensures that after recovering from a rollback the system performs normally and can resume its functioning without any issues. It hence ensures that a continuity is maintained after a rollback.
-\end{itemize}
-
-\item \textit{History Tests.}
-History is an abstract data structure which records persistent modifiers and is same as what a blockchain is in Bitcoin. Since history is an integral part of a node view, it is important to check if an implementation of history acts correctly. A consensus protocol aims at establishing a common history for all the nodes on the network.
-
-\begin{itemize}[\IEEEsetlabelwidth{Z}]
-\item \textit{Once a syntactically invalid modifier is appended to history, it should not be available in history by its identifier.}\\
-A syntactically invalid modifier is one which is inconsistent with the present view of history. Only syntactically valid modifier is eligible to be applied to history. To filter out invalid modifiers before adding them to history, we propose this test. We generate a random invalid modifier and attempt to add it to history. Since it is invalid, history should not add it and hence, it should not be available by identifier when queried from history. Some examples of generating invalid modifiers are - generate false nonce which doesn't satisfy the puzzle, generate false signatures which validate to false when checked with the public key of the signer, etc.
-
-\item \textit{Once a syntactically valid modifier is appended to history, the history should contain it.}\\
-This test ensures that all the valid modifiers are correctly appended to the history meaning that they are indeed capable of changing the node's view. Since the history appends valid modifiers only, only should a valid modifier by available by identifier when queried from history.
-
-\item \textit{History should be able to report if a modifier is semantically valid after successfully appending it to history.}\\
-This purpose of this test if to check the consistency in the working of minimal state and the history. Whenever a node's view is updated, both the history and the state should be updated in harmony and consistently with one another. Since a semantically valid modifier in one which is valid based on a node's view of minimal state, history should be able to correctly report the validity of semantically valid modifier after appending it. This also implies that the history should always report the semantic validity of an appended modifier as "valid" since only totally valid modifiers should be able to append to history. On a side-note, this test also checks that history indeed is checking that only totally valid modifiers, and not just syntactically valid ones (the modifiers valid based on history) are appended to history.
 \end{itemize}
 
 \item \textit{Common Component Tests.}\\
