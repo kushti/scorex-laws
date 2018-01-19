@@ -31,7 +31,6 @@ Interestingly, we implicitly define some properties via generators. In particula
 \label{sec:forking}
 
 
-
 We have implemented forking tests for the node view holder. The tests are checking that shorter sequence of totally valid persistent modifiers is not resulting in a fork, a longer sequence leads to a fork. A separate test is trying to apply a fork longer than the maximal rollback depth and checks whether the node view holder is emitting a needed alert.
 
 
