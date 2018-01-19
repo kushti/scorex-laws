@@ -3,9 +3,9 @@
 \section{Property-based testing of a blockchain client}
 \label{sec:props}
 
-In this section we discuss our approach to generalized exhaustive testing of an abstract blockchain~(or blockchain-like) protocol implementation. For extensive testing, we test history, minimal state and memory pool separately, and also do thorough checks for node view holder properties.
+In this section we report on our approach to generalized exhaustive testing of an abstract blockchain~(or blockchain-like) protocol implementation. For extensive testing, we test history, minimal state and memory pool components separately, and also do thorough checks for node view holder properties.
 	
-In total, we have implemented 59 property tests. They are using random object generators described in Section~\ref{sec:generators}. Most of the tests are relatively simple, some examples are provided in Section~\ref{sec:simple-props}. Other tests could check complex functionalities where several components are involved. As a particular example, we provide details on testing fork processing in Section~\ref{sec:forking}.
+In total, we have implemented 59 property tests. They are using random object generators described in Section~\ref{sec:generators}. Most of the tests are relatively simple, others could check complex functionalities where several components are involved. We provide many examples in Section~\ref{sec:examples}.
 
 \subsection{Generators}
 \label{sec:generators}
@@ -27,14 +27,15 @@ As an example, for the TwinsCoin implementation we provide concrete implementati
 
 Interestingly, we implicitly define some properties via generators. In particular, the existence of a generator for a totally valid modifier for any given correct history and valid minimal state instances assumes that it is always possible to make a progress in constructing a blockchain. To the best of our knowledge, the need of this property to be hold was first stated in the formal model of the Bitcoin protocol by Garay et. al.~\cite{Garay2015}~(see ``Input Validity'' definition in Section 3.1 of the paper~\cite{Garay2015}). 
 
+
+
+
 \subsection{Forking}
 \label{sec:forking}
 
 
 We have implemented forking tests for the node view holder. The tests are checking that shorter sequence of totally valid persistent modifiers is not resulting in a fork, a longer sequence leads to a fork. A separate test is trying to apply a fork longer than the maximal rollback depth and checks whether the node view holder is emitting a needed alert.
 
-
-\knote{remove this section?}
 \subsection{Simple properties}
 \label{sec:simple-props}
 
