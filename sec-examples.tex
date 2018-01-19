@@ -6,7 +6,7 @@
 To explain our approach to the testing of a client in details, in this section we provide some examples of property tests which are valid for most of blockchain-based systems. We have grouped the tests based on their similarity.
 
 \begin{enumerate}[\IEEEsetlabelwidth{Z}]
-\item \textit{Memory pool Tests}.\\
+\item \textit{Memory pool pool Tests}.\\
 Memory Pool (or just mempool in the Bitcoin jargon) is used to store unconfirmed transactions which are to be included into persistent modifiers. The following tests are used to check some general properties of a memory pool which every blockchain client should pass.
 
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
@@ -76,11 +76,11 @@ As the previous test aimed at checking that the components of a state are recove
 \end{itemize}
 
 \item \textit{Common Component Tests.}\\
-
+\begin{itemize}[\IEEEsetlabelwidth{Z}]
 \item \textit{Application of the same modifier twice should be unsuccessful.}\\
 
 This test checks that a persistent modifier should not be added more than once. Since if a modifier is added twice, all the transaction inside the modifier will be double spent, so an implementation of a blockchain system should prevent addition of a modifier twice. In this test, we generate a modifier, then append it to history once and on the second application of the modifier again to history, the history should return an unsuccessful addition.
-
+\end{itemize}
 
 \item \textit{Node View Holder Tests.}\\
 
