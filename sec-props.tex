@@ -10,18 +10,22 @@ In total, we have implemented 59 property tests. They are using random object ge
 \subsection{Generators}
 \label{sec:generators}
 
-We recall that (unlike unit tests, for example), property-based tests are checking not an output of a functionality under test against a concrete input, but rather a relation between input and output values for an arbitrary input value. Thus to run a property-based test, an instance of an input value is needed. To obtain it, a property-based test is getting an input generator which provides a random input domain element upon request. For our testing framework, a developer of a concrete client needs to provide implementation for generators of the following types:
+We recall that (unlike unit tests, for example), property-based tests are checking not an output of a functionality under test against a concrete input, but rather a relation between input and output values for an arbitrary input value. Thus, in order to run a property-based test, an instance of an input value is needed. To be able to obtain it, a property-based test is supplied with a random input generator, which provides a random input domain element upon request. For our testing framework, a developer of a concrete protocol client needs to provide implementation for generators of the following types:
 
 \begin{itemize}
-	\item{a syntactically valid (respectively, invalid) modifier, which is valid (respectively, invalid) against (local) history.}
-	\item{a semantically valid (respectively, invalid) modifier, which is valid (respectively, invalid) against (local) minimal state.}
-	\item{a totally, so both semantically and syntactically, valid modifier. Respectively, a sequence of totally valid modifiers.}
-	\item{a transaction.}
+	\item{a syntactically valid (respectively, invalid) modifier, which is valid (respectively, invalid) against given history instance}
+	\item{a semantically valid (respectively, invalid) modifier, which is valid (respectively, invalid) against given minimal state instance. The modifier could be syntactically invalid}
+	\item{a totally, so both semantically and syntactically, valid modifier. Respectively, a sequence of totally valid modifiers}
+	\item{a transaction}
+	\item{history instance, for which it should be should be possible to generate a syntactically valid modifier}
+	\item{minimal state instance, for which it should be possible to generate a semantically valid modifier}
+	\item{vault instance}
+	\item{node view holder instance, for which it should be possible a totally valid modifier}
 \end{itemize}
 
-As an example, for the TwinsCoin implementation we provide concrete implementations for all the generators mentioned above. To generate a syntactically valid modifier, we generate a Proof-of-Work block if a previous pair of {\em<Proof-of-Work block, Proof-of-Stake block>} is complete, otherwise we generate a new Proof-of-Stake block. It can be noted that, in TwinsCoin, transactions are only recorded in Proof-of-Stake blocks. A minimal state in our TwinsCoin implementation, similarly to Bitcoin, is defined as a set of current unspent transaction outputs. To generate a semantically valid modifier, we generate a Proof-of-Stake block including transactions based on unspent transaction outputs. A totally valid modifier generator has a matching Proof-of-Stake block among a syntactically valid and a semantically valid modifier. 
+As an example, for the TwinsCoin implementation we provide concrete implementations for all the generators mentioned above. To generate a syntactically valid modifier, we generate a Proof-of-Work block if a previous pair of {\em<Proof-of-Work block, Proof-of-Stake block>} is complete, otherwise we generate a new Proof-of-Stake block. We recall that in TwinsCoin transactions can be recorded only in Proof-of-Stake blocks. A minimal state in the TwinsCoin implementation, similarly to Bitcoin, is defined as a set of current unspent transaction outputs. In order to generate a semantically valid modifier, we generate a Proof-of-Stake block including transactions based on unspent transaction outputs. A totally valid modifier generator, by given a history as well as minimal state instances, is producing whether an empty Proof-of-Work~\footnote{unlike Bitcoin, Twinscoin does not have a notion of a coinbase transaction rewarding miner, instead, block generator's public key is included into the block directly.} or a semantically valid Proof-of-Stake block, depending on a last block in the history~(in order to generate the modifier which is syntactically). 
 
-Interestingly, we implicitly define some properties via generators. In particular, the existence of a generator for a totally valid modifier for any given correct history and valid minimal state assumes that it is always possible to make a progress in constructing a blockchain.
+Interestingly, we implicitly define some properties via generators. In particular, the existence of a generator for a totally valid modifier for any given correct history and valid minimal state instances assumes that it is always possible to make a progress in constructing a blockchain. To the best of our knowledge, the need of this property to be hold was first stated in the formal model of the Bitcoin protocol by Garay et. al.~\cite{Garay2015}~(see ``Input Validity'' definition in Section 3.1 of the paper~\cite{Garay2015}). 
 
 \subsection{Forking}
 \label{sec:forking}
