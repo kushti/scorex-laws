@@ -13,10 +13,10 @@ Memory Pool (or just mempool in the Bitcoin jargon) is used to store unconfirmed
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 
 \item \textit{A memory pool should be able to store enough transactions.}\\
-In TwinsCoin implementation, we are testing that the mempool which is empty before the test should be able to store a number of transactions up to a maximum specified in settings.\\
+In TwinsCoin implementation, we are testing that the memory pool which is empty before the test should be able to store a number of transactions up to a maximum specified in settings.\\
 
-\item \textit{Filtering of valid and invalid transactions from a mempool should be fast}.\\
-We are checking that an implementation of mempool is able to filter out an invalid transaction reasonably fast. As processing time is platform-dependent, the test during its instantiation is measuring time to calculate 500,000 blocks of SHA-256 hash. Time to filter out the transaction should be no more than that. \\
+\item \textit{Filtering of valid and invalid transactions from a memory pool should be fast}.\\
+We are checking that an implementation of memory pool is able to filter out an invalid transaction reasonably fast. As processing time is platform-dependent, the test during its instantiation is measuring time to calculate 500,000 blocks of SHA-256 hash. Time to filter out the transaction should be no more than that. \\
 
 \item \textit{A transaction successfully added to memory pool should be available by a transaction identifier.}\\
 The purpose of this test is to ensure that once a transaction is added to the memory pool, it indeed is available by a transaction identifier. The test simply adds the transaction to the memory pool and then query the transaction by its identifier. The initial transaction is the only correct result of the compound operation. \\
@@ -108,7 +108,7 @@ At the moment we have two tests for forking. In both of them we apply random num
 %- State should be able to generate changes from valid block and apply them.
 %- Wallet should contain secrets for all it's public propositions.
 %-
-%- Transactions once added to a block should be removed from the local copy of mempool.
+%- Transactions once added to a block should be removed from the local copy of memory pool.
 %- Minimal state should be able to add and remove boxes based on received transaction's validity.
 %-
 %- 
