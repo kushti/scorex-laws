@@ -28,7 +28,7 @@ As an example, for the TwinsCoin implementation we provide concrete implementati
 Interestingly, we implicitly define some properties via generators. In particular, the existence of a generator for a totally valid modifier for any given correct history and valid minimal state instances assumes that it is always possible to make a progress in constructing a blockchain. To the best of our knowledge, the need of this property to be hold was first stated in the formal model of the Bitcoin protocol by Garay et. al.~\cite{Garay2015}~(see ``Input Validity'' definition in Section 3.1 of the paper~\cite{Garay2015}). 
 
 
-
+\ignore{
 
 \subsection{Forking}
 \label{sec:forking}
@@ -42,3 +42,5 @@ We have implemented forking tests for the node view holder. The tests are checki
 We provide some examples of simple properties we are checking. If a persistent modifier has been appended to a history, it is always possible to get it at some later point of time, for any implementation of the history interface and any syntactically valid modifier. In opposite, if modifier is syntactically invalid, it should be not possible to get it from the history by request. Similarly, if a persistent modifier is semantically valid against a minimal state, the former could be applied to the latter. Even more, after application we can, roll the application back and successfully apply the persistent modifier again.  
 
 For a {\em node view synchronizer} component, which acts as a proxy layer between the node view holder and networking protocol, we check, in particular, that if a transaction or a persistent modifier is coming in from a simulated ``peer'', the node view holder is getting it within a reasonable timeout. Similarly, if a transaction or a persistent modifier is coming from simulated local side, the synchronizer should send it to a network layer within a timeout.
+
+}
