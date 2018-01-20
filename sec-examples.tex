@@ -25,29 +25,36 @@ The purpose of this test is to ensure that once a transaction is added to the me
 
 A history is an abstract data structure which records all the persistent modifiers ever appended to it. We recall that the blockchain structure in the Bitcoin protocol is the example of a history implementation. Since history is an integral part of a node view, it is important to check if an implementation of history acts correctly. A consensus protocol aims at establishing common history for all the nodes on the network.
 
-A persistent modifier is the main building block of a history and is used to update the history and a minimal state. As soon as a valid modifier gets appended to history, a node's local view changes in the sense that the history is updated, possibly along with the minimal state.
+A persistent modifier is the main building block of a history and is used to update the history and a minimal state. As soon as a valid modifier got appended to history, the whole node's local view is being changed in the sense that the history is updated, possibly along with the minimal state.
+
+We have many tests to test history, some examples are provided below.
 
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
-\item \textit{A syntactically valid persistent modifier should be successfully applied to history and available by its identifier after that}.\\
-A syntactically valid persistent modifier, once applied to the history, should be available by its unique identifier. The importance of this test comes from the fact that it is of utmost importance for the client implementation to tell the difference between the modifiers that have been appended to the history from those that have not been added. For this purpose, the unique identifier of the modifier can be used to query the history to know whether the modifier has been added to the history of not.\\
+\item \textit{A syntactically valid persistent modifier should be applicable to a history instance and available by its identifier after that}.\\
+By definition, a syntactically valid persistent modifier should be applicable to a history instance, and then, once applied to the history, it should be available by its unique identifier. The importance of this test comes from the fact that it is of utmost importance for the client implementation to tell the difference between the modifiers that have been appended to the history from those that have not been added. For this purpose, the unique identifier of the modifier can be used to query the history to know whether the modifier has been added to the history of not.\\
 
 \item \textit{A syntactically invalid modifier should not be able to be added to history.}\\
-A syntactically invalid modifier should not be added to history and hence, should not be available by id.\\
 
-\item \textit{Application of a syntactically invalid modifier (inconsistent with the previous ones) should be unsuccessful}.\\
-When the unique identifier of an invalid modifier is queried from history, it should always return empty result which shows that the invalid modifier has not been added to the history.\\
+A syntactically invalid modifier should not applicable to a history instance. The test first checks whether application of the modifier returns an indication of an error. Then the test checks that the modifier should not be available by its identifier.\\
 
-\item \textit{Once a syntactically invalid modifier is appended to history, it should not be available in history by its identifier.}\\
-A syntactically invalid modifier is one which is inconsistent with the present view of history. Only syntactically valid modifier is eligible to be applied to history. To filter out invalid modifiers before adding them to history, we propose this test. We generate a random invalid modifier and attempt to add it to history. Since it is invalid, history should not add it and hence, it should not be available by identifier when queried from history. Some examples of generating invalid modifiers are - generate false nonce which doesn't satisfy the puzzle, generate false signatures which validate to false when checked with the public key of the signer, etc.\\
+\item \textit{Modifier not ever appended to a history instance should not be available by request}.\\
+When the persistent modifier which was never appended to the history, is queried from the history, it should always return empty result which shows that the invalid modifier has not been added to the history.\\
+
+\item \textit{After application of a syntactically invalid modifier to a history instance, it should not be available in history by its identifier.}\\
+A syntactically invalid modifier is one which is inconsistent with the present view of history. Only syntactically valid modifier is eligible to be applied to history. To check how the history is filtering out invalid modifiers, we propose this test. We generate a random invalid modifier and attempt to add it to history. Since it is invalid, history should not add it and hence, it should not be available by identifier when queried from history. Some examples of generated invalid modifiers are ones with false nonces which do not satisfy the puzzle and ones with non-valid signatures.\\
 
 \item \textit{Once a syntactically valid modifier is appended to history, the history should contain it.}\\
-This test ensures that all the valid modifiers are correctly appended to the history meaning that they are indeed capable of changing the node's view. Since the history appends valid modifiers only, only should a valid modifier by available by identifier when queried from history.\\
+This test ensures that if valid modifiers are correctly appended to the history meaning, they should be then available by their respectable identifiers. Also, the test is checking that the history is indicating success during the application.\\
 
-\item \textit{History should be able to report if a modifier is semantically valid after successfully appending it to history.}\\
-This purpose of this test if to check the consistency in the working of minimal state and the history. Whenever a node's view is updated, both the history and the state should be updated in harmony and consistently with one another. Since a semantically valid modifier in one which is valid based on a node's view of minimal state, history should be able to correctly report the validity of semantically valid modifier after appending it. This also implies that the history should always report the semantic validity of an appended modifier as "valid" since only totally valid modifiers should be able to append to history. On a side-note, this test also checks that history indeed is checking that only totally valid modifiers, and not just syntactically valid ones (the modifiers valid based on history) are appended to history.\\
+\item \textit{History correctly reports semantic validity of an identifier.}\\
+
+A history instance should be able to indicate semantic validity of a persistent modifier. If the modifier is not appended to the history yet, the history should return on request that semantic validity of the modifier is not known. The same result should be returned once the modifier is appended, but semantic validity status is not provided by the node view holder~(after applying the modifier to the minimal state). Once semantic validity status is provided, the history should return it by request. The test checks all the options, simulating node view holder with a stub.   
+
 \end{itemize}
+
 \item \textit{Minimal State Tests.}\\
-In case of an unwanted event, a rollback has to be performed which essentially rolls the system back to a previous "safe" (changes the current system state to a state in the past which has been verified and is seemingly correct) state and hence recovers the system from the unwanted state. A very common example where a rollback might be necessary is when a system has to recover from a fork issue.
+
+Tests for the minimal state component are checking application of a semantically valid~(respectively, invalid) persistent modifier, and also rollback functionality. In case of an unwanted event, a rollback has to be performed which essentially rolls the system back to a previous "safe" (changes the current system state to a state in the past which has been verified and is seemingly correct) state and hence recovers the system from the unwanted state. A very common example where a rollback might be necessary is when a system has to recover from a fork issue.
 
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 
