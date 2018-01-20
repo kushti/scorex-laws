@@ -13,7 +13,7 @@ Memory Pool (or just mempool in the Bitcoin jargon) is used to store unconfirmed
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 
 \item \textit{A memory pool should be able to store enough transactions.}\\
-In our TwinsCoin implementation, we are testing that the mempool which is empty before the test should be able to store a number of transactions up to a maximum specified in settings.\\
+In TwinsCoin implementation, we are testing that the mempool which is empty before the test should be able to store a number of transactions up to a maximum specified in settings.\\
 
 \item \textit{Filtering of valid and invalid transactions from a mempool should be fast}.\\
 We are checking that an implementation of mempool is able to filter out an invalid transaction reasonably fast. As processing time is platform-dependent, the test during its instantiation is measuring time to calculate 500,000 blocks of SHA-256 hash. Time to filter out the transaction should be no more than that. \\
