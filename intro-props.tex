@@ -3,17 +3,19 @@
 \newcommand{\avector}[2]{(#1_1,#1_2,\ldots,#1_{#2})}
 \newcommand{\aDEFvector}[2][a]{(#1_1,#1_2,\ldots,#1_{#2})}
 
-\subsection{Property-based testing}
-In this section, we give a formal definition of a property followed by a discussion on property-based testing in contrast to the conventional testing methodologies.\\
-Within the scope of a data domain $\mathbb{D}$, a property can be seen as a collective abstract behaviour which has to be followed by every valid member of the data domain. In other words, a property can be understood as a predicate $P$ over a variable $X$ ($P:X \rightarrow \{true, false\}$) such that: 
+\subsection{Property-Based Testing}
+In this section, we give a formal definition of a property followed by a discussion on property-based testing in contrast to conventional testing methodologies.
+
+Within the scope of a data domain $\mathbb{D}$, a property can be seen as a collective abstract behaviour which has to be followed by every valid member of the data domain. More precisely, a property is a predicate $P: \mathbb{D} \rightarrow \{true, false\}$ and it is desirable that it be \emph{valid}: 
 \begin{center}
 $\forall X \in \mathbb{D}, P(X) = true$
 \end{center}
-Let us consider an example of a property $P$ over the domain of all possible strings $\mathbb{S}$.
+To illustrate, an example of a property $P$ over the domain of pairs of strings $\mathbb{S} \times \mathbb{S}$ is shown below:
 \begin{center}
-$\forall X \in \{s_1::s_2 | \#s_1::s_2 >  \#s_1 \wedge s_1, s_2 \in \mathbb{S}\}, P(X) = true$
+$P((s_1, s_2)) = \#(s_1::s_2) > \#s_1$
 \end{center}
-where $::$ denotes a regular string append operation and $\#s$ denotes the length of string $s$. But if we look closely, we observe that if $s_1, s_2 \in \{\phi\}$ then the property $P$ does not hold true anymore contrary to the fact that both component strings are valid members of $\mathbb{S}$. Hence, $P$ is not a valid property over the domain $\mathbb{S}$. \\
-In contrast to conventional testing methods where it might suffice to test the behaviour of some boundary points at the discrete neighbourhoods, property-based testing \cite{ron2001property} emphasises on defining universal (within the domain) properties and then testing their validity against randomly sampled data points. There are some popular libraries available for property testing including QuickCheck for Haskell \cite{claessen2011quickcheck}, JUnit-QuickCheck for Java \cite{jung2015quickcheck}, theft for C, ScalaTest \cite{venners2009scalatest} and ScalaCheck \cite{nilsson2014scalacheck} (majorly for Scala.
+where $::$ denotes string concatenation and $\#s$ denotes the length of string $s$. This property is false for any $(s_1, \varepsilon)$, where $\varepsilon$ is the empty string. Therefore, it is not valid.
 
-In this work we highlight some of these properties which should hold true for any valid implementation of a cryptocurrency.
+In contrast to conventional testing methods, where the behaviour of a program is only tested on some pre-determined cases, property-based testing \cite{ron2001property} emphasizes defining properties and then testing their validity against randomly sampled data points. There are various popular libraries available for property testing including QuickCheck for Haskell \cite{claessen2011quickcheck}, JUnit-QuickCheck for Java \cite{jung2015quickcheck}, theft for C, ScalaTest \cite{venners2009scalatest} and ScalaCheck \cite{nilsson2014scalacheck} for Scala.
+
+%In this work we highlight some of these properties which should hold true for any valid implementation of a cryptocurrency.

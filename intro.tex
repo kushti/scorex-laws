@@ -6,4 +6,9 @@ A blockchain-based cryptocurrency system consists of a set of policies and proto
 
 An error in a client implementation could be utterly costly and hard to fix. For example, the famous value oveflow bug in Bitcoin~\cite{overflow} caused a fork of more than 50 blocks~(more than 8 hours) and required a soft fork~(for the majority of miners to upgrade) to be fixed. With an increasing demand for the development of more clients for existing as well as new alternative blockchain systems and cryptocurrencies, such costly bugs can be expected to become more common and problematic. 
 
-This paper addresses this problem by proposing a generic testing framework that can be easily plugged into the implementation of a concrete client.
+This paper addresses this problem by:
+\begin{enumerate}
+\item proposing a generic property-based testing framework that can be easily plugged into the implementation of a concrete client;
+\item describing some of the essential properties which ought to hold true for any cryptocurrency implementation.
+\end{enumerate}
+
