@@ -40,11 +40,8 @@
 % type user-defined commands here
 \usepackage[T1]{fontenc}
 
-\usepackage{xcolor}
+%\usepackage{xcolor}
 
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \newcommand{\ma}{\mathcal{A}}
 \newcommand{\mb}{\mathcal{B}}
@@ -63,7 +60,11 @@
 \begin{document}
 
 \title{Checking Laws of the Blockchain With Property-Based Testing}
-\author{Alexander Chepurnoy \and Mayank Rathee}
+\author{\IEEEauthorblockN{Alexander Chepurnoy\IEEEauthorrefmark{1}, Mayank Rathee\IEEEauthorrefmark{2}}
+\IEEEauthorblockA{\IEEEauthorrefmark{1} Ergo Platform and IOHK Research\\
+Sestroretsk, Russia}
+\IEEEauthorblockA{\IEEEauthorrefmark{2} Department of Computer Science and Engineering, Indian Institute of Technology (Banaras Hindu University)\\
+Varanasi, India}}
 
 \maketitle
 
@@ -84,8 +85,12 @@ We propose to tackle this problem with a suite of abstract property tests that c
 \input{sec-examples}
 \input{conclusion}
 
-\bibliographystyle{unsrt}
-\bibliography{sources}
+\section*{Acknowledgments}
+
+Authors would like to thank Bruno Woltzenlogel Paleo for valuable comments and corrections.
+
+\bibliographystyle{IEEEtran}
+\bibliography{sources, ref}
 
 %Appendices
 
