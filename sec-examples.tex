@@ -3,7 +3,7 @@
 \subsection{Examples of properties tests}
 \label{sec:examples}
 
-To explain our approach to the testing of a client in details, in this section we provide some examples of property tests which are valid for most of blockchain-based systems. We have grouped the tests based on their similarity.\\
+To explain our approach to the testing of a client in details, in this section we provide some examples of property tests which are valid for most blockchain-based systems. We have grouped the tests based on their similarity.\\
 
 \begin{enumerate}[\IEEEsetlabelwidth{Z}]
 
@@ -35,7 +35,7 @@ By definition, a syntactically valid persistent modifier should be applicable to
 
 \item \textit{A syntactically invalid modifier should not be able to be added to history.}\\
 
-A syntactically invalid modifier should not applicable to a history instance. The test first checks whether application of the modifier returns an indication of an error. Then the test checks that the modifier should not be available by its identifier.\\
+A syntactically invalid modifier should not be applicable to a history instance. The test first checks whether application of the modifier returns an indication of an error. Then the test checks that the modifier should not be available by its identifier.\\
 
 \item \textit{Modifier not ever appended to a history instance should not be available by request}.\\
 When the persistent modifier which was never appended to the history, is queried from the history, it should always return empty result which shows that the invalid modifier has not been added to the history.\\
@@ -92,7 +92,7 @@ As was mentioned in Section~\ref{sec:scorex}, the node view holder is the centra
 \begin{itemize}[\IEEEsetlabelwidth{Z}]
 
 \item \textit{A totally valid persistent modifier should successfully update the minimal state and the history.}\\
-We recall that a totally valid modifier is a persistent modifier which is valid for both the history and the minimal state, so it is applicable to both of them. In this test we are sending a random totally valid persistent modifier to the node view holder component and then we are checking that history contains it and the version of the minimal state is equals to the modifier's identifier.\\
+We recall that a totally valid modifier is a persistent modifier which is valid for both the history and the minimal state, so it is applicable to both of them. In this test we are sending a random totally valid persistent modifier to the node view holder component and then we are checking that history contains it and the version of the minimal state is equal to the modifier's identifier.\\
 
 \item \textit{Forking tests.}\\
 
