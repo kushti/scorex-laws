@@ -78,7 +78,6 @@ As was mentioned in Section~\ref{sec:scorex}, the node view holder is the centra
 At the moment we have two tests for forking. In both of them we apply random number of totally valid modifiers in the first place and remember last block which we call the common block. One test then is applying two totally valid modifiers which have the common block as parent. The test checks that after the application the history contains whether one of these modifiers, and version of the minimal state is equals to identifier of whether one of the two modifiers. The logic behind such a check is that we do not know whether an implementation of a node view holder will make switching from one prefix~(of length one) to another~(of the same length), but anyway the general property should hold. Another test first generates a sequence of totally valid persistent modifiers of length 2, applies it to the common block, then the test generates a sequence of totally valid persistent modifiers of length 4 starting from the common block, and applies the longer sequence. The test checks that switching takes place, so minimal state version equals to the identifier of the last block in the longer sequence, and the history contains the identifier in the current modifiers which do not have ancestors~(for a blockchain, there is one such a modifier, for a block tree, there could be more than one modifiers returned). With the help of the forking tests we have found few errors in the Twinscoin implementation. 
 
 
-\end{itemize}
 \end{enumerate}
 
 
